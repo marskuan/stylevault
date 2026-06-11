@@ -187,6 +187,27 @@ ul.list li b{color:var(--ink);font-weight:900}
 #tocList a.sec{margin-top:12px;color:#fff;font-weight:700}
 
 @media (max-width:700px){.pmeta .br{display:none}}
+/* Lookbook 拼貼 */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.gallery figure{margin:0}
+.gallery .img-frame{width:100%;aspect-ratio:4/3}
+.gallery figcaption{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.04em;color:var(--gray);margin-top:6px}
+@media (max-width:760px){.gallery{grid-template-columns:repeat(2,1fr)}}
+
+/* 估值 / IPO */
+.val-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:26px;margin-top:18px;align-items:start}
+@media (max-width:820px){.val-grid{grid-template-columns:1fr}}
+.bignum-row{display:flex;flex-wrap:wrap;gap:10px}
+.metric{border:1px solid var(--ink);padding:11px 15px;flex:1 1 130px}
+.metric .v{font-family:var(--f-display);font-size:clamp(1.15rem,2.6vw,1.7rem);line-height:1;color:var(--blue)}
+.metric .l{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-top:6px}
+.timeline{list-style:none;margin-top:4px;border-left:2px solid var(--ink);padding-left:18px}
+.timeline li{position:relative;margin-top:13px;font-size:clamp(.86rem,1.7vw,.98rem);color:var(--ink2)}
+.timeline li::before{content:"";position:absolute;left:-25px;top:.4em;width:11px;height:11px;border-radius:50%;background:var(--jade);border:2px solid var(--paper)}
+.timeline .yr{font-family:var(--f-display);color:var(--ink);margin-right:8px}
+.timeline b{color:var(--blue)}
+.ipo-img{width:100%;max-width:230px;aspect-ratio:1/1;margin-top:14px}
+
 @page{size:landscape;margin:0}
 @media print{
   body{overflow:visible;background:#fff}
@@ -351,6 +372,23 @@ ul.list li b{color:var(--ink);font-weight:900}
   </div></div>
 </section>
 
+<!-- 9b. 聯名視覺 Lookbook -->
+<section class="slide" data-title="聯名視覺 Lookbook" data-section="產品介紹" data-note="國寶 × 太空，同一個畫面">
+  <div class="sheet"><div class="wrap">
+    <p class="kicker">03 ─ Product Introduction</p>
+    <h2>聯名視覺 ・ Lookbook<span class="en">Heritage × Frontier</span></h2>
+    <div class="gallery">
+      <figure><div class="img-frame"><img src="img/art1.jpg" alt="谿山行旅圖"></div><figcaption>范寬《谿山行旅圖》</figcaption></figure>
+      <figure><div class="img-frame"><img src="img/art2.jpg" alt="早春圖"></div><figcaption>郭熙《早春圖》</figcaption></figure>
+      <figure><div class="img-frame"><img src="img/art4.jpg" alt="富春山居圖"></div><figcaption>黃公望《富春山居圖》</figcaption></figure>
+      <figure><div class="img-frame"><img src="img/sx2.jpg" alt="Starship"></div><figcaption>SpaceX Starship</figcaption></figure>
+      <figure><div class="img-frame"><img src="img/starlink1.jpg" alt="Starlink"></div><figcaption>Starlink 衛星列車</figcaption></figure>
+      <figure><div class="img-frame"><img src="img/earth1.jpg" alt="地球"></div><figcaption>地球 ・ Apollo 17 (NASA)</figcaption></figure>
+    </div>
+    <p class="plate">全部圖片為公共版權／CC0 ・ 故宮 Open Data ・ NASA／SpaceX</p>
+  </div></div>
+</section>
+
 <!-- 10. 功能對應痛點 -->
 <section class="slide" data-title="功能 × 痛點對應" data-section="產品介紹" data-note="每個功能都對應一個痛點">
   <div class="sheet"><div class="wrap">
@@ -430,6 +468,36 @@ ul.list li b{color:var(--ink);font-weight:900}
       <div class="card j"><span class="tag">M-04 ─ 年輕化</span><p class="q">真的觸及新世代</p><p class="bd">使用者 <b class="st">18–34 歲占 ≥ 60%</b>。</p></div>
     </div>
     <div class="warn"><b>同時訂出失敗條件：</b>若 AR 分享率 &lt; 5%——「會被瘋傳」的假設不成立，先回到「純數位藏品＋地面 AR 展」驗證內容吸引力，不依賴真實太空酬載這個昂貴變數。快速失敗、便宜轉向，也是 MVP 的目的。</div>
+  </div></div>
+</section>
+
+<!-- 15. 估值與 IPO 規劃 -->
+<section class="slide" data-title="估值與 IPO 規劃" data-section="產品介紹" data-note="從種子輪到上市">
+  <div class="sheet"><div class="wrap">
+    <p class="kicker">03 ─ Financial Outlook</p>
+    <h2>估值與 IPO 規劃<span class="en">Valuation &amp; IPO Roadmap ・ 推估</span></h2>
+    <div class="val-grid">
+      <div>
+        <p class="lead" style="margin-top:0">市場規模與切入（由大到小）：</p>
+        <div class="bignum-row">
+          <div class="metric"><div class="v">US$3,387億</div><div class="l">TAM ・ 文化 IP 授權 2027</div></div>
+          <div class="metric"><div class="v">US$120億</div><div class="l">SAM ・ 亞洲數位文化體驗</div></div>
+          <div class="metric"><div class="v">NT$18億</div><div class="l">SOM ・ 第 5 年預估年營收</div></div>
+        </div>
+        <p class="bd" style="margin-top:14px">估值邏輯：對標數位內容／體驗平台 <b class="st">P/S 8–10×</b>，再以「故宮獨家 IP × SpaceX 獨家舞台」的稀缺性給溢價。</p>
+        <div class="img-frame ipo-img"><img src="img/earth1.jpg" alt="地球"></div>
+      </div>
+      <div>
+        <p class="lead" style="margin-top:0">募資路徑到上市：</p>
+        <ul class="timeline">
+          <li><span class="yr">2026</span> 種子輪 <b>NT$3,000 萬</b>：完成 AR MVP ＋首發象徵酬載。</li>
+          <li><span class="yr">2028</span> A 輪 估值 <b>NT$12–15 億</b>：擴內容庫、跨國發行。</li>
+          <li><span class="yr">2030</span> 興櫃 → IPO 募資 <b>NT$20 億</b>。</li>
+          <li><span class="yr">IPO</span> 上市市值 推估 <b>NT$80–150 億</b>（約 US$2.6–4.8 億）。</li>
+        </ul>
+        <div class="warn" style="margin-top:16px"><b>注意：</b>以上為課堂財務<u>推估</u>、非保證；關鍵變數＝AR 擴散率與太空酬載成本，須以前面市場測試的數據持續迭代。</div>
+      </div>
+    </div>
   </div></div>
 </section>
 
