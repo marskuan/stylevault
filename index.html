@@ -3,61 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>風格庫 StyleVault｜AI 風格授權平台</title>
+<title>故宮 × SpaceX｜國寶上太空</title>
 <script>document.documentElement.classList.add('js')</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
 :root{
-  --paper:#EDEAE3;      /* 海報紙 */
-  --ink:#141414;        /* 油墨黑 */
+  --paper:#EDEAE3;
+  --ink:#141414;
   --ink2:#1d1d1b;
-  --gray:#6b685f;       /* 紙上灰 */
+  --gray:#6b685f;
   --faint:#8a877f;
-  --red:#D43A26;        /* 唯一強調色 */
-  --void:#101010;       /* 畫廊背景 */
+  --blue:#2552bf;     /* SpaceX 太空藍 */
+  --jade:#2e7d6b;     /* 故宮 翠玉綠 */
+  --on-accent:#f3f1ea;
   --f-display:'Archivo Black',Impact,'Arial Black',sans-serif;
-  --f-mono:'Space Mono',ui-monospace,Consolas,'Courier New',monospace;
+  --f-mono:'Space Mono',ui-monospace,Consolas,monospace;
   --f-sans:'Noto Sans TC','Microsoft JhengHei','微軟正黑體','PingFang TC',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{
-  background:var(--void);
-  color:var(--ink);
-  font-family:var(--f-sans);
-  overflow:hidden;
-  line-height:1.6;
-}
+body{background:#101010;color:var(--ink);font-family:var(--f-sans);overflow:hidden;line-height:1.6}
 
-/* ── 海報投影片 ─────────────────────────── */
 .deck{position:fixed;inset:0}
 .slide{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  padding:2.5vh 3vw 7vh;
-  opacity:0;visibility:hidden;
-  transform:translateX(4vw);
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  padding:2.5vh 3vw 7vh;opacity:0;visibility:hidden;transform:translateX(4vw);
   transition:opacity .45s ease,transform .45s ease,visibility 0s .45s;
 }
-.slide.active{
-  opacity:1;visibility:visible;transform:none;z-index:2;
-  transition:opacity .45s ease,transform .45s ease,visibility 0s;
+.slide.active{opacity:1;visibility:visible;transform:none;z-index:2;transition:opacity .45s ease,transform .45s ease,visibility 0s}
+
+.sheet{
+  position:relative;width:min(1240px,94vw);height:90vh;background:var(--paper);
+  background-image:radial-gradient(rgba(20,20,20,.05) 1px,transparent 1.2px);background-size:22px 22px;
+  border:1px solid #000;box-shadow:0 30px 90px rgba(0,0,0,.6);overflow:hidden;
 }
 
-/* ── 進場與微動畫 ───────────────────────── */
+/* 動畫 */
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @keyframes numIn{from{opacity:0;transform:translate(24px,-12px)}to{opacity:1;transform:none}}
-@keyframes dot{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
-@keyframes radar{0%{r:11;opacity:.6}80%{r:25;opacity:0}100%{r:25;opacity:0}}
-
-/* 啟用 JS 後才先隱藏（無 JS 則照常顯示） */
+@keyframes radar{0%{r:11;opacity:.6}80%{r:24;opacity:0}100%{r:24;opacity:0}}
 .js .slide .wrap>*{opacity:0}
 .js .slide .wrap>.cards{opacity:1}
 .js .slide .cards>.card{opacity:0}
 .js .divider .bignum{opacity:0}
-
-/* 進入中的投影片：內容逐項浮現 */
 .slide.is-entering .wrap>*{animation:rise .55s cubic-bezier(.2,.72,.2,1) both}
 .slide.is-entering .wrap>*:nth-child(1){animation-delay:.05s}
 .slide.is-entering .wrap>*:nth-child(2){animation-delay:.12s}
@@ -65,7 +54,6 @@ body{
 .slide.is-entering .wrap>*:nth-child(4){animation-delay:.26s}
 .slide.is-entering .wrap>*:nth-child(5){animation-delay:.33s}
 .slide.is-entering .wrap>*:nth-child(6){animation-delay:.40s}
-.slide.is-entering .wrap>*:nth-child(7){animation-delay:.47s}
 .slide.is-entering .wrap>.cards{animation:none}
 .slide.is-entering .cards>.card{animation:rise .5s cubic-bezier(.2,.72,.2,1) both}
 .slide.is-entering .cards>.card:nth-child(1){animation-delay:.30s}
@@ -73,785 +61,431 @@ body{
 .slide.is-entering .cards>.card:nth-child(3){animation-delay:.46s}
 .slide.is-entering .cards>.card:nth-child(4){animation-delay:.54s}
 .divider.is-entering .bignum{animation:numIn .7s cubic-bezier(.2,.72,.2,1) both}
-
-/* 雷達脈衝（標示「我們的產品」） */
-.pulse-ring{animation:radar 2.6s ease-out infinite;transform-box:fill-box;transform-origin:center}
-
-/* 安全網：JS 在動畫時間結束後強制顯示，避免任何環境動畫沒跑而留白 */
+.pulse-ring{transform-box:fill-box;transform-origin:center;animation:radar 2.6s ease-out infinite}
 .slide.is-shown .wrap>*,.slide.is-shown .cards>.card,.divider.is-shown .bignum{opacity:1!important;transform:none!important}
-
 @media (prefers-reduced-motion:reduce){
   .slide.is-entering .wrap>*,.slide.is-entering .cards>.card,.divider.is-entering .bignum{animation:none}
   .js .slide .wrap>*,.js .slide .cards>.card,.js .divider .bignum{opacity:1}
-  .slide{transition:opacity .2s ease}
-  .deco::after,.pulse-ring{animation:none}
+  .slide{transition:opacity .2s ease}.pulse-ring{animation:none}
 }
 
-/* 紙面 */
-.sheet{
-  position:relative;
-  width:min(1240px,94vw);height:90vh;
-  background:var(--paper);
-  background-image:radial-gradient(rgba(20,20,20,.05) 1px,transparent 1.2px);
-  background-size:22px 22px;
-  border:1px solid #000;
-  box-shadow:0 30px 90px rgba(0,0,0,.6);
-  overflow:hidden;
-}
-.divider .sheet,.darksheet{
-  background-color:var(--ink);
-  background-image:radial-gradient(rgba(237,234,227,.06) 1px,transparent 1.2px);
-  color:var(--paper);
-}
-
-/* 角落標註（由 JS 注入） */
-.pmeta{pointer-events:none}
-.pmeta span{
-  position:absolute;z-index:3;
-  font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;
-  color:var(--faint);text-transform:uppercase;white-space:nowrap;
-}
-.pmeta span:nth-child(1){top:13px;left:18px}
-.pmeta span:nth-child(2){top:13px;right:18px}
-.pmeta span:nth-child(3){bottom:12px;left:18px}
-.pmeta span:nth-child(4){bottom:12px;right:18px}
-
-/* 內容區（置中；超出才捲動） */
-.wrap{
-  height:100%;overflow:hidden;scrollbar-width:thin;
-  padding:40px clamp(24px,3.6vw,50px);
-  display:flex;flex-direction:column;
-}
+.wrap{height:100%;overflow:hidden;scrollbar-width:thin;padding:40px clamp(24px,3.6vw,50px);display:flex;flex-direction:column}
 .wrap::before,.wrap::after{content:"";flex:1 0 0}
 .wrap.scroll{overflow:auto}
-.wrap::-webkit-scrollbar{width:7px}
-.wrap::-webkit-scrollbar-thumb{background:var(--ink)}
-.wrap::-webkit-scrollbar-track{background:transparent}
+.wrap::-webkit-scrollbar{width:7px}.wrap::-webkit-scrollbar-thumb{background:var(--ink)}
 
-.kicker{
-  font-family:var(--f-mono);font-weight:700;
-  letter-spacing:.2em;color:var(--red);text-transform:uppercase;
-  font-size:clamp(.66rem,1.2vw,.8rem);margin-bottom:16px;
-}
-.kicker::before{content:"( "}
-.kicker::after{content:" )"}
-h2{
-  font-size:clamp(1.6rem,3.6vw,2.7rem);
-  font-weight:900;letter-spacing:.01em;line-height:1.25;
-}
-h2 .en{
-  display:block;font-family:var(--f-mono);font-weight:400;
-  color:var(--gray);font-size:clamp(.7rem,1.3vw,.85rem);
-  letter-spacing:.12em;text-transform:uppercase;margin-top:6px;
-}
+.kicker{font-family:var(--f-mono);font-weight:700;letter-spacing:.2em;color:var(--blue);text-transform:uppercase;font-size:clamp(.66rem,1.2vw,.8rem);margin-bottom:14px}
+.kicker::before{content:"( "}.kicker::after{content:" )"}
+h2{font-size:clamp(1.5rem,3.4vw,2.5rem);font-weight:900;letter-spacing:.01em;line-height:1.25}
+h2 .en{display:block;font-family:var(--f-mono);font-weight:400;color:var(--gray);font-size:clamp(.7rem,1.3vw,.85rem);letter-spacing:.12em;text-transform:uppercase;margin-top:6px}
 .lead{color:#4a4842;margin-top:8px;font-size:clamp(.9rem,1.7vw,1.02rem)}
-u,.k{
-  color:inherit;font-style:normal;
-  text-decoration:underline;text-decoration-color:var(--red);
-  text-decoration-thickness:2px;text-underline-offset:5px;
-}
-.st{color:var(--red);font-weight:900}
-.red{color:var(--red)}
+u,.k{color:inherit;font-style:normal;text-decoration:underline;text-decoration-color:var(--blue);text-decoration-thickness:2px;text-underline-offset:5px}
+u.j{text-decoration-color:var(--jade)}
+.st{color:var(--blue);font-weight:900;font-family:var(--f-display)}
+.jade{color:var(--jade)}.blue{color:var(--blue)}
 
-/* 卡片 */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin-top:22px}
-.card{border:1px solid var(--ink);padding:16px 18px;background:transparent;transition:border-color .2s ease,transform .2s ease}
-.card:hover{border-color:var(--red);transform:translateY(-3px)}
-.card .tag{
-  display:inline-block;font-family:var(--f-mono);font-weight:700;
-  font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
-  border:1px solid var(--ink);padding:3px 10px;margin-bottom:9px;
-}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:14px;margin-top:22px}
+.card{border:1px solid var(--ink);padding:16px 18px;background:transparent;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--blue);transform:translateY(-3px)}
+.card .tag{display:inline-block;font-family:var(--f-mono);font-weight:700;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--ink);padding:3px 10px;margin-bottom:10px}
+.card.j .tag{background:var(--jade);color:var(--on-accent);border-color:var(--jade)}
+.card.b .tag{background:var(--blue);color:var(--on-accent);border-color:var(--blue)}
 .card .q{font-size:clamp(.95rem,1.8vw,1.08rem);font-weight:700;line-height:1.5}
 .card .bd{margin-top:10px;font-size:.92rem;color:var(--ink2)}
 .card .note{color:var(--gray);font-size:.85rem;margin-top:8px}
-.src{
-  font-family:var(--f-mono);color:var(--faint);
-  font-size:.66rem;margin-top:12px;line-height:1.6;letter-spacing:.02em;
-}
+.src{font-family:var(--f-mono);color:var(--faint);font-size:.66rem;margin-top:12px;line-height:1.6}
 
-/* ✏️ 待填區塊 */
-.ph{
-  border:1.5px dashed var(--ink);padding:12px 14px;margin-top:14px;
-  color:var(--gray);font-size:.92rem;
-}
-.ph::before{content:"✎ ";color:var(--red)}
+/* 圖片框 */
+.img-frame{position:relative;border:1px solid var(--ink);background:#0b0b0b;overflow:hidden}
+.img-frame img{display:block;width:100%;height:100%;object-fit:cover}
+.plate{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.05em;color:var(--gray);margin-top:7px}
+.plate b{color:var(--ink)}
+
+.ph{border:1.5px dashed #3c4f68;border-radius:0;padding:12px 14px;margin-top:14px;color:var(--gray);font-size:.92rem}
+.ph::before{content:"✎ ";color:var(--blue)}
 
 /* 封面 */
-.cover{text-align:left}
-.cov-top{
-  display:flex;justify-content:space-between;gap:12px;
-  font-family:var(--f-mono);font-size:.7rem;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--ink);
-  border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:5vh;
-}
-.cover h1{
-  font-size:clamp(3.2rem,12vh,7.5rem);font-weight:900;
-  letter-spacing:.06em;line-height:1.05;
-}
-.h1en{
-  font-family:var(--f-display);
-  font-size:clamp(2.2rem,9.5vw,6.8rem);
-  line-height:.95;letter-spacing:-.01em;color:var(--ink);
-  margin:8px 0 4vh;white-space:nowrap;
-}
-.h1en .red{color:var(--red)}
-.cover .tagline{font-size:clamp(.95rem,2vw,1.3rem);font-weight:500;max-width:34em}
-.cov-meta{
-  display:flex;flex-wrap:wrap;gap:6px 36px;
-  font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;
-  color:var(--ink);text-transform:uppercase;
-  border-top:1px solid var(--ink);margin-top:5vh;padding-top:14px;
-}
-.cover .hint{color:var(--faint);margin-top:18px;font-size:.8rem;font-family:var(--f-mono)}
-kbd{
-  border:1px solid var(--ink);border-bottom-width:2.5px;
-  padding:0 6px;font-family:var(--f-mono);font-size:.85em;color:var(--ink);
-}
-.deco{
-  position:absolute;right:48px;bottom:110px;width:190px;height:190px;
-  background:radial-gradient(var(--ink) 1.6px,transparent 1.8px);
-  background-size:17px 17px;z-index:1;pointer-events:none;
-}
-.deco::after{
-  content:"";position:absolute;left:-26px;top:-26px;
-  width:34px;height:34px;border-radius:50%;background:var(--red);
-  animation:dot 3.4s ease-in-out infinite;
-}
+.cover{flex-direction:row;align-items:center;gap:clamp(20px,4vw,54px)}
+.cover::before,.cover::after{content:none}
+.cov-left{flex:1.15;min-width:0}
+.cov-right{flex:.85;display:flex;flex-direction:column;align-items:center}
+.cover-hero{width:100%;max-width:380px;aspect-ratio:3/4}
+.cov-top{display:flex;justify-content:space-between;gap:12px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:22px}
+.lockup{font-size:clamp(2.2rem,5.5vw,4rem);font-weight:900;line-height:1.05;letter-spacing:.01em}
+.lockup .x{font-family:var(--f-display);color:var(--ink);margin:0 .15em}
+.lockup .b1{color:var(--jade)}
+.lockup .b2{font-family:var(--f-display);color:var(--blue);font-weight:400}
+.cover h1.big{font-family:var(--f-display);font-size:clamp(2.6rem,8vw,5.4rem);line-height:.95;margin:6px 0 4px;color:var(--ink)}
+.cover .tagline{font-size:clamp(.92rem,1.8vw,1.15rem);font-weight:500;margin-top:14px;max-width:26em;color:var(--ink2)}
+.cov-meta{display:flex;flex-wrap:wrap;gap:6px 30px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;color:var(--ink);text-transform:uppercase;border-top:1px solid var(--ink);margin-top:24px;padding-top:13px}
+.cover .hint{color:var(--faint);margin-top:14px;font-size:.78rem;font-family:var(--f-mono)}
+kbd{border:1px solid var(--ink);border-bottom-width:2.5px;padding:0 6px;font-family:var(--f-mono);font-size:.85em;color:var(--ink)}
+@media (max-width:860px){.cover{flex-direction:column}.cov-right{order:-1}.cover-hero{max-width:230px}}
 
 /* 大綱 */
-.agenda{display:flex;flex-direction:column;gap:0;margin-top:28px;border-top:2px solid var(--ink)}
-.agenda a{
-  display:flex;align-items:center;gap:26px;text-decoration:none;color:inherit;
-  border-bottom:1px solid var(--ink);
-  padding:22px 18px;transition:background .15s,color .15s;
-}
+.agenda{display:flex;flex-direction:column;gap:0;margin-top:26px;border-top:2px solid var(--ink)}
+.agenda a{display:flex;align-items:center;gap:24px;text-decoration:none;color:inherit;border-bottom:1px solid var(--ink);padding:20px 16px;transition:background .15s,color .15s}
 .agenda a:hover{background:var(--ink);color:var(--paper)}
 .agenda a:hover .e{color:#bdb9b0}
-.agenda .no{
-  font-family:var(--f-display);
-  font-size:clamp(1.5rem,3.2vw,2.3rem);line-height:1;
-}
+.agenda .no{font-family:var(--f-display);font-size:clamp(1.5rem,3.2vw,2.3rem);line-height:1}
 .agenda .t{font-size:clamp(1.05rem,2.2vw,1.3rem);font-weight:900}
-.agenda .e{color:var(--gray);font-size:.85rem;margin-top:3px;font-family:var(--f-mono);letter-spacing:.02em}
+.agenda .e{color:var(--gray);font-size:.85rem;margin-top:3px;font-family:var(--f-mono)}
 
-/* 章節隔頁（黑紙） */
+/* 章節隔頁 */
 .divider{text-align:left}
-.divider .bignum{
-  position:absolute;top:-4%;right:-2%;z-index:0;
-  font-family:var(--f-display);
-  font-size:clamp(11rem,42vh,26rem);line-height:1;letter-spacing:-.03em;
-  color:transparent;-webkit-text-stroke:2.5px rgba(237,234,227,.4);
-  pointer-events:none;user-select:none;
-}
-.divider .wrap{position:relative;z-index:1}
-.divider .wrap::before{flex:2}
-.divider .wrap::after{flex:.7}
-.divider h2{font-size:clamp(2.2rem,6vw,4rem);margin-top:10px}
-.divider .en2{
-  font-family:var(--f-mono);color:var(--faint);
-  font-size:clamp(.8rem,1.6vw,1rem);letter-spacing:.18em;text-transform:uppercase;margin-top:8px;
-}
-.divider .secmark{
-  font-family:var(--f-mono);font-size:.7rem;letter-spacing:.2em;color:var(--red);font-weight:700;
-}
-.divlist{margin-top:32px;color:#bdb9b0;font-size:clamp(.88rem,1.7vw,1rem);max-width:46em}
-.divlist li{list-style:none;padding-left:1.5em;position:relative;margin-top:8px}
-.divlist li::before{content:"＊";position:absolute;left:0;color:var(--red)}
-.divider u{text-decoration-color:var(--red)}
+.divider .bignum{position:absolute;top:-4%;right:-2%;z-index:0;font-family:var(--f-display);font-size:clamp(11rem,42vh,26rem);line-height:1;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:2.5px #cdc8bd;pointer-events:none;user-select:none}
+.divider .wrap{position:relative;z-index:1}.divider .wrap::before{flex:2}.divider .wrap::after{flex:.7}
+.divider h2{font-size:clamp(2rem,6vw,3.6rem);margin-top:10px}
+.divider .en2{font-family:var(--f-mono);color:var(--gray);font-size:clamp(.8rem,1.6vw,1rem);letter-spacing:.18em;text-transform:uppercase;margin-top:8px}
+.divider .secmark{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.2em;color:var(--jade);font-weight:700}
+.divlist{margin-top:28px;color:#4a4842;font-size:clamp(.88rem,1.7vw,1rem);max-width:46em}
+.divlist li{list-style:none;padding-left:1.4em;position:relative;margin-top:8px}
+.divlist li::before{content:"›";position:absolute;left:0;color:var(--blue);font-weight:900}
 
-/* 願景引言 */
-.vision{
-  border-top:3px solid var(--ink);border-bottom:1px solid var(--ink);
-  padding:30px 8px;margin-top:28px;
-  font-size:clamp(1.2rem,2.7vw,1.8rem);font-weight:900;line-height:1.5;
-}
-.vision small{
-  display:block;font-family:var(--f-mono);color:var(--gray);
-  font-weight:400;font-size:.6em;margin-top:12px;letter-spacing:.1em;
-}
+/* 願景 + 橫幅 */
+.vision{border-top:3px solid var(--ink);border-bottom:1px solid var(--ink);padding:24px 6px;margin-top:22px;font-size:clamp(1.15rem,2.6vw,1.7rem);font-weight:900;line-height:1.5}
+.vision small{display:block;font-family:var(--f-mono);color:var(--gray);font-weight:400;font-size:.55em;margin-top:10px;letter-spacing:.1em}
+.banner{width:100%;height:clamp(120px,21vh,190px);margin-top:18px}
+.banner img{object-position:center}
 
-/* 兩欄 */
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:22px;align-items:start}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px;align-items:start}
 @media (max-width:820px){.cols{grid-template-columns:1fr}}
-.shot{
-  aspect-ratio:16/9;border:1.5px dashed var(--ink);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--gray);text-align:center;padding:20px;font-size:.92rem;
-}
+.mvp-img{width:100%;aspect-ratio:4/3}
 
-/* 表格 */
-table{width:100%;border-collapse:collapse;margin-top:26px;font-size:clamp(.84rem,1.7vw,.98rem)}
+table{width:100%;border-collapse:collapse;margin-top:22px;font-size:clamp(.84rem,1.7vw,.98rem)}
 th,td{border:1px solid var(--ink);padding:12px 16px;text-align:left;vertical-align:top}
-th{
-  background:var(--ink);color:var(--paper);font-weight:700;white-space:nowrap;
-  font-family:var(--f-mono);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;
-}
+th{background:var(--ink);color:var(--paper);font-weight:700;white-space:nowrap;font-family:var(--f-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
 
-/* 感知圖 */
-.mapbox{border:1px solid var(--ink);padding:14px;background:transparent}
+.mapbox{border:1px solid var(--ink);padding:14px}
 .mapbox svg{width:100%;height:auto;max-height:46vh;display:block;margin:0 auto}
-.caption{
-  font-family:var(--f-mono);color:var(--gray);
-  font-size:.72rem;margin-top:10px;text-align:center;letter-spacing:.04em;
-}
+.caption{font-family:var(--f-mono);color:var(--gray);font-size:.72rem;margin-top:10px;text-align:center;letter-spacing:.04em}
 
-/* 條列 */
-ul.list{margin-top:24px}
-ul.list li{
-  list-style:none;border:1px solid var(--ink);
-  padding:13px 16px;margin-top:10px;
-  font-size:clamp(.9rem,1.8vw,1rem);color:var(--ink2);
-}
+ul.list{margin-top:18px}
+ul.list li{list-style:none;border:1px solid var(--ink);padding:13px 16px;margin-top:10px;font-size:clamp(.9rem,1.8vw,1rem);color:var(--ink2)}
 ul.list li b{color:var(--ink);font-weight:900}
 
-/* 警示框 */
-.warn{
-  margin-top:18px;border:1px solid var(--ink);border-left:6px solid var(--red);
-  padding:13px 18px;color:var(--ink2);font-size:clamp(.86rem,1.7vw,.98rem);
-}
-.warn b{color:var(--red)}
+.warn{margin-top:18px;border:1px solid var(--ink);border-left:6px solid var(--blue);padding:13px 18px;color:var(--ink2);font-size:clamp(.86rem,1.7vw,.98rem)}
+.warn b{color:var(--blue)}
 
-/* 結尾 */
-.end{text-align:left}
-.end h2{font-size:clamp(2.6rem,12vh,6rem);line-height:1.15}
-.end .sub{color:var(--ink2);font-size:clamp(.95rem,2vw,1.25rem);margin-top:16px}
-.end .mono{font-family:var(--f-mono);color:var(--gray);letter-spacing:.08em;font-size:.85rem}
+.pmeta span{position:absolute;z-index:3;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;color:var(--faint);text-transform:uppercase;white-space:nowrap}
+.pmeta .tl{top:13px;left:18px}.pmeta .tr{top:13px;right:18px}.pmeta .bl{bottom:12px;left:18px}.pmeta .br{bottom:12px;right:18px;color:var(--blue)}
 
-/* ── 介面（進度條、頁碼、按鈕） ───────────── */
-#bar{
-  position:fixed;top:0;left:0;height:3px;width:0;
-  background:var(--red);z-index:50;transition:width .35s ease;
-}
-.ui{
-  position:fixed;left:0;right:0;bottom:0;z-index:40;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:13px 22px;
-  font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;
-  color:#7a7a74;text-transform:uppercase;
-  pointer-events:none;
-}
-.ui>*{pointer-events:auto}
-#counter{min-width:80px}
-#secLabel{letter-spacing:.2em}
+#bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--jade),var(--blue));z-index:50;transition:width .35s ease}
+.ui{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:13px 22px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;color:#7a7a74;text-transform:uppercase;pointer-events:none}
+.ui>*{pointer-events:auto}#counter{min-width:80px}#secLabel{letter-spacing:.2em}
 .navs{display:flex;gap:8px}
-.navbtn{
-  width:40px;height:40px;border-radius:0;
-  border:1px solid #4a4a46;background:#161616;color:#EDEAE3;
-  font-size:1.05rem;cursor:pointer;transition:border-color .2s,color .2s;
-}
-.navbtn:hover{border-color:var(--red);color:var(--red)}
+.navbtn{width:40px;height:40px;border-radius:50%;border:1px solid #4a4a46;background:#161616;color:#EDEAE3;font-size:1.05rem;cursor:pointer;transition:border-color .2s,color .2s}
+.navbtn:hover{border-color:var(--blue);color:#fff;background:var(--blue)}
 
-/* 目錄（按 O 或 Esc） */
-#toc{
-  position:fixed;inset:0;z-index:60;display:none;
-  background:rgba(10,10,10,.95);backdrop-filter:blur(8px);
-  align-items:center;justify-content:center;
-}
+#toc{position:fixed;inset:0;z-index:60;display:none;background:rgba(10,10,10,.95);backdrop-filter:blur(8px);align-items:center;justify-content:center}
 #toc.open{display:flex}
 #tocInner{width:min(660px,90vw);max-height:80vh;overflow:auto}
-#tocInner h3{
-  color:#EDEAE3;margin-bottom:20px;font-size:1rem;
-  font-family:var(--f-mono);letter-spacing:.2em;text-transform:uppercase;
-  border-bottom:1px solid #3a3a36;padding-bottom:12px;
-}
-#tocList a{
-  display:flex;gap:18px;align-items:baseline;color:#bdb9b0;text-decoration:none;
-  padding:8px 10px;font-size:.95rem;
-}
-#tocList a:hover{background:#1d1d1b;color:#EDEAE3}
-#tocList a.cur{color:var(--red)}
-#tocList .n{
-  font-family:var(--f-mono);color:#7a7a74;
-  min-width:2.4em;text-align:right;font-size:.8rem;
-}
-#tocList a.sec{margin-top:12px;color:#EDEAE3;font-weight:700}
+#tocInner h3{color:var(--paper);margin-bottom:18px;font-size:1rem;font-family:var(--f-mono);letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid #3a3a36;padding-bottom:12px}
+#tocList a{display:flex;gap:18px;align-items:baseline;color:#bdb9b0;text-decoration:none;padding:8px 10px;font-size:.95rem}
+#tocList a:hover{background:#1d1d1b;color:#fff}#tocList a.cur{color:var(--blue)}
+#tocList .n{font-family:var(--f-mono);color:#7a7a74;min-width:2.4em;text-align:right;font-size:.8rem}
+#tocList a.sec{margin-top:12px;color:#fff;font-weight:700}
 
-@media (max-width:700px){
-  .deco{display:none}
-  .pmeta span:nth-child(3),.pmeta span:nth-child(4){display:none}
-  .h1en{white-space:normal}
-}
-
-/* ── 列印／匯出 PDF ─────────────────────── */
+@media (max-width:700px){.pmeta .br{display:none}}
 @page{size:landscape;margin:0}
 @media print{
   body{overflow:visible;background:#fff}
-  #bar,.ui,#toc{display:none!important}
-  .deck{position:static}
-  .slide{
-    position:relative;inset:auto;height:100vh;padding:2vh 2vw;
-    opacity:1!important;visibility:visible!important;transform:none!important;
-    page-break-after:always;break-after:page;
-  }
-  .sheet{height:96vh;box-shadow:none}
-  .wrap{max-height:none}
+  #bar,.ui,#toc{display:none!important}.deck{position:static}
+  .slide{position:relative;inset:auto;height:100vh;padding:2vh 2vw;opacity:1!important;visibility:visible!important;transform:none!important;page-break-after:always;break-after:page}
+  .sheet{height:96vh;box-shadow:none}.wrap{max-height:none}
   .js .slide .wrap>*,.js .slide .cards>.card,.divider .bignum{opacity:1!important;transform:none!important;animation:none!important}
 }
 </style>
 </head>
 <body>
-
 <div id="bar"></div>
-
 <div class="deck">
 
-<!-- ════════ 1. 封面 ════════ -->
-<section class="slide active" data-title="首頁" data-section="" data-chap="序章 ─ AI 風格授權平台" data-note="你的畫風，由你授權">
-  <div class="sheet">
-    <div class="deco" aria-hidden="true"></div>
-    <div class="wrap cover">
-      <div class="cov-top"><span>AI ART TECH ─ STYLEVAULT</span><span>Vol.01 ─ 2026.06</span></div>
-      <h1>風格庫</h1>
-      <div class="h1en">STYLEVAULT<span class="red">.</span></div>
-      <p class="tagline">你的畫風，由你授權——讓 AI 時代的粉絲經濟回到創作者手上。</p>
-      <div class="cov-meta">
-        <span>製作 ─ 管英序</span>
-        <span>AI 風格授權平台</span>
-      </div>
-      <p class="hint"><kbd>←</kbd> <kbd>→</kbd> / <kbd>Space</kbd> 翻頁 ・ <kbd>F</kbd> 全螢幕 ・ <kbd>O</kbd> 目錄 ・ 手機左右滑動</p>
+<!-- 1. 封面 -->
+<section class="slide active" data-title="首頁" data-section="" data-chap="序章 ─ 國寶上太空" data-note="把國寶送出地球">
+  <div class="sheet"><div class="wrap cover">
+    <div class="cov-left">
+      <div class="cov-top"><span>Brand Collab ─ 品牌聯名提案</span><span>Vol.01 ─ 2026</span></div>
+      <div class="lockup"><span class="b1">故宮</span><span class="x">✕</span><span class="b2">SpaceX</span></div>
+      <h1 class="big">國寶上太空</h1>
+      <p class="tagline">把千年國寶搭上火箭——掃一下，讓國寶在你眼前升空、在軌道上展開。讓世界級的文化，第一次離開地球。</p>
+      <div class="cov-meta"><span>製作 ─ 管英序</span><span>Treasures Beyond Earth</span></div>
+      <p class="hint"><kbd>←</kbd> <kbd>→</kbd> / <kbd>Space</kbd> 翻頁 ・ <kbd>F</kbd> 全螢幕 ・ <kbd>O</kbd> 目錄</p>
     </div>
-  </div>
+    <div class="cov-right">
+      <div class="img-frame cover-hero"><img src="img/sx1.jpg" alt="Falcon 9 發射"></div>
+      <p class="plate"><b>SpaceX</b> Crew-2 ・ Falcon 9 夜間發射 ・ NASA/SpaceX（公共版權）</p>
+    </div>
+  </div></div>
 </section>
 
-<!-- ════════ 2. 大綱 ════════ -->
+<!-- 2. 大綱 -->
 <section class="slide" data-title="內容綱要" data-section="" data-chap="序章 ─ 內容綱要" data-note="挑戰 → 問題 → 產品">
-  <div class="sheet">
-    <div class="wrap">
-      <p class="kicker">Agenda</p>
-      <h2>內容綱要<span class="en">Index of Contents</span></h2>
-      <div class="agenda">
-        <a href="#3"><span class="no">01</span><span><span class="t">業界的挑戰</span><br><span class="e">THE INDUSTRY CHALLENGE — 生成式 AI 與創作者的全面開戰：危機、價值與商機</span></span></a>
-        <a href="#5"><span class="no">02</span><span><span class="t">清晰的問題陳述</span><br><span class="e">A CLEAR PROBLEM STATEMENT — 繪師與粉絲的痛點，以及怎麼證明它是真的</span></span></a>
-        <a href="#7"><span class="no">03</span><span><span class="t">產品介紹</span><br><span class="e">PRODUCT INTRODUCTION — 願景、MVP 三大功能、差異化、市場測試與成功界定</span></span></a>
-      </div>
+  <div class="sheet"><div class="wrap">
+    <p class="kicker">Agenda</p>
+    <h2>內容綱要<span class="en">Index of Contents</span></h2>
+    <div class="agenda">
+      <a href="#3"><span class="no">01</span><span><span class="t">業界的挑戰</span><br><span class="e">THE INDUSTRY CHALLENGE — 文化離年輕人太遠、火箭找有意義的酬載</span></span></a>
+      <a href="#5"><span class="no">02</span><span><span class="t">清晰的問題陳述</span><br><span class="e">A CLEAR PROBLEM STATEMENT — 誰受害、痛在哪，怎麼證明它是真的</span></span></a>
+      <a href="#7"><span class="no">03</span><span><span class="t">產品介紹</span><br><span class="e">PRODUCT INTRODUCTION — 願景、MVP、差異化、測試與成功界定</span></span></a>
     </div>
-  </div>
+  </div></div>
 </section>
 
-<!-- ════════ 3. 章節：業界的挑戰 ════════ -->
+<!-- 3. 章節 01 -->
 <section class="slide divider" data-title="01 業界的挑戰" data-section="業界的挑戰" data-note="危機，就是入場時機">
-  <div class="sheet">
-    <div class="bignum">01</div>
-    <div class="wrap">
-      <p class="secmark">SECTION 01 ─ A</p>
-      <h2>業界的挑戰</h2>
-      <p class="en2">The Industry Challenge</p>
-      <ul class="divlist">
-        <li>這個提案要解決什麼<u>問題或危機</u>？或是要創造什麼<u>新穎的體驗</u>？</li>
-        <li>為什麼它<u>值得</u>被解決或創造？</li>
-        <li>解決它所帶來的潛在<u>商業機會</u>是什麼？</li>
-      </ul>
-    </div>
-  </div>
+  <div class="sheet"><div class="bignum">01</div><div class="wrap">
+    <p class="secmark">SECTION 01 ─ A</p>
+    <h2>業界的挑戰</h2><p class="en2">The Industry Challenge</p>
+    <ul class="divlist">
+      <li>這個提案要解決什麼<u>問題或危機</u>？或是要創造什麼<u class="j">新穎的體驗</u>？</li>
+      <li>為什麼它<u>值得</u>被解決或創造？</li>
+      <li>解決它所帶來的潛在<u>商業機會</u>是什麼？</li>
+    </ul>
+  </div></div>
 </section>
 
-<!-- 4. 業界的挑戰：內容 -->
-<section class="slide" data-title="危機與商機" data-section="業界的挑戰" data-note="訴訟潮證明：痛是真的">
-  <div class="sheet">
-    <div class="wrap">
-      <p class="kicker">01 ─ The Industry Challenge</p>
-      <h2>AI 與創作者的全面開戰<span class="en">Why this, why now</span></h2>
-      <div class="cards">
-        <div class="card">
-          <span class="tag">危機 × 新體驗</span>
-          <p class="q">生成式 AI <u>未經同意</u>學習創作者的畫風</p>
-          <p class="bd">2025 年 6 月迪士尼與環球聯手控告 Midjourney（好萊塢對 AI 的第一槍，每件作品求償最高 <b class="st">15 萬美元</b>），9 月華納跟進；Getty 對 Stability AI 的訴訟持續延燒。<b class="st">70%</b> 專業藝術家深度擔憂作品被擅自拿去訓練。</p>
-          <p class="bd">我們要創造的新體驗：粉絲<u>合法付費</u>用喜愛繪師的風格生圖、繪師抽成分潤——把侵權流量變成創作者的收入。</p>
-          <p class="src">SRC ─ NPR (2025.6) / McKool Smith AI Litigation / Artists Rights Society (2024)</p>
-        </div>
-        <div class="card">
-          <span class="tag">為什麼值得</span>
-          <p class="q">「風格」是繪師最值錢、卻最<u>無法可管</u>的資產</p>
-          <p class="bd">著作權保護「作品」，不保護「畫風」——被仿了，法律幫不上忙。NAVA 對 890 多位視覺藝術家的調查：<b class="st">逾 80%</b> 認為 AI 危及其收入與權利、<b class="st">73%</b> 支持「使用須補償」機制。</p>
-          <p class="bd">需求明確存在，但市場上<u>沒有人</u>提供「個人風格授權」的基礎設施。</p>
-          <p class="src">SRC ─ NAVA 視覺藝術家調查 (2025)</p>
-        </div>
-        <div class="card">
-          <span class="tag">商業機會</span>
-          <p class="q">高速成長的市場 × 台灣百萬創作者基數</p>
-          <p class="bd">全球 AI 圖像生成市場 2025 年估約 <b class="st">91 億美元</b>、年複合成長率 <b class="st">30–40%</b>。台灣 LINE 原創市集創作者 2024 年突破 <b class="st">100 萬人</b>，前五大創作者平均累積銷售額 <b class="st">2.9 億元</b>——創作者量能與付費粉絲文化，台灣都有。</p>
-          <p class="bd">收入線：生成抽成、模型代訓、企業合規授權。</p>
-          <p class="src">SRC ─ Market.us (2025) / LINE Taiwan (2024) / INSIDE (2020)</p>
-        </div>
+<!-- 4. 危機與商機 -->
+<section class="slide" data-title="危機與商機" data-section="業界的挑戰" data-note="文化離年輕人太遠">
+  <div class="sheet"><div class="wrap">
+    <p class="kicker">01 ─ The Industry Challenge</p>
+    <h2>當千年文化，遇上人類的火箭<span class="en">Why this, why now</span></h2>
+    <div class="cards">
+      <div class="card j">
+        <span class="tag">危機 × 新體驗</span>
+        <p class="q">國寶躺在展櫃裡，<u class="j">離年輕世代越來越遠</u></p>
+        <p class="bd">故宮的數位典藏多到看不完，卻大多躺在硬碟與展櫃裡；對全球年輕人而言「老、遠、無感」。新體驗：第一次讓國寶<u class="j">搭上火箭、用 AR 在你眼前升空</u>——文化第一次離開地球。</p>
+      </div>
+      <div class="card b">
+        <span class="tag">為什麼值得</span>
+        <p class="q">文化聯名正當紅，<u>太空是最大舞台</u></p>
+        <p class="bd">麥肯錫 2023：<b class="st">68%</b> 消費者偏好與文化機構連結的品牌；文化 IP 授權市場 2027 上看 <b class="st">3,387 億</b>美元。台灣文創 2023 年產值 <b class="st">1.13 兆</b>元、佔 GDP 4.78%。話題與規模都在。</p>
+        <p class="src">SRC ─ McKinsey 2023 / 產業預估 / TAICCA 2023 年報</p>
+      </div>
+      <div class="card">
+        <span class="tag">商業機會</span>
+        <p class="q">雙贏的<u>全球 PR + 數位收入</u></p>
+        <p class="bd">SpaceX rideshare 一直在找有意義、有話題的酬載；故宮要年輕化與全球化。收入線：AR 數位藏品、聯名周邊、品牌贊助、故宮數位典藏導流、全球媒體聲量。</p>
+        <p class="src">SRC ─ SpaceX Transporter rideshare / 故宮 Open Data</p>
       </div>
     </div>
-  </div>
+  </div></div>
 </section>
 
-<!-- ════════ 5. 章節：清晰的問題陳述 ════════ -->
-<section class="slide divider" data-title="02 清晰的問題陳述" data-section="清晰的問題陳述" data-note="先把問題說清楚，再談產品">
-  <div class="sheet">
-    <div class="bignum">02</div>
-    <div class="wrap">
-      <p class="secmark">SECTION 02 ─ B</p>
-      <h2>清晰的問題陳述</h2>
-      <p class="en2">A Clear Problem Statement</p>
-      <ul class="divlist">
-        <li>定義目標受眾或客戶。</li>
-        <li>找出他們的<u>痛點</u>與<u>需求</u>。</li>
-        <li>如何驗證這些痛點與需求<u>確實存在</u>而且<u>有意義</u>，而不是我自己想得很爽的幻想。</li>
-      </ul>
-    </div>
-  </div>
+<!-- 5. 章節 02 -->
+<section class="slide divider" data-title="02 清晰的問題陳述" data-section="清晰的問題陳述" data-note="先把問題說清楚">
+  <div class="sheet"><div class="bignum">02</div><div class="wrap">
+    <p class="secmark">SECTION 02 ─ B</p>
+    <h2>清晰的問題陳述</h2><p class="en2">A Clear Problem Statement</p>
+    <ul class="divlist">
+      <li>定義目標受眾或客戶。</li>
+      <li>找出他們的<u>痛點</u>與<u>需求</u>。</li>
+      <li>如何驗證這些痛點與需求<u>確實存在</u>而且<u>有意義</u>，而不是我自己想得很爽的幻想。</li>
+    </ul>
+  </div></div>
 </section>
 
-<!-- 6. 問題陳述：內容 -->
-<section class="slide" data-title="受眾・痛點・驗證" data-section="清晰的問題陳述" data-note="盜版模型的流量＝未被滿足的付費需求">
-  <div class="sheet">
-    <div class="wrap">
-      <p class="kicker">02 ─ A Clear Problem Statement</p>
-      <h2>受眾・痛點・驗證<span class="en">Who hurts, and how do we know</span></h2>
-      <div class="cards">
-        <div class="card">
-          <span class="tag">WHO ─ 目標受眾</span>
-          <p class="q">雙邊市場：<u>繪師</u>供給 × <u>粉絲</u>需求</p>
-          <p class="bd"><b>供給端：</b>插畫家、LINE 貼圖創作者、同人與接案繪師（台灣 LINE 創作者破 <b class="st">100 萬</b>，其中活躍商業繪師是首波目標）。<br><b>需求端：</b>粉絲、Vtuber 與獨立遊戲團隊、品牌小編——想要「特定畫風」的內容。</p>
-          <p class="note">Persona：接案插畫家 Lulu，IG 兩萬粉。上週發現模型站有人用她的作品訓練了「Lulu 風格」模型，免費供人下載。</p>
-        </div>
-        <div class="card">
-          <span class="tag">PAIN ─ 痛點與需求</span>
-          <p class="q">繪師怕被偷、粉絲<u>想買卻買不到</u></p>
-          <p class="bd"><b>繪師：</b>① 風格被仿冒卻求助無門（法律不保護畫風）② AI 低價內容壓縮委託收入 ③ 不碰 AI 怕被淘汰、碰了怕背叛同溫層。</p>
-          <p class="bd"><b>粉絲／團隊：</b>④ 想要特定繪師的風格——但委託排單以月計、單價高；用盜版風格模型又有法律與公關風險。</p>
-        </div>
-        <div class="card">
-          <span class="tag">PROOF ─ 驗證方法</span>
-          <p class="q">用<u>既有行為</u>證明，不靠自我感覺</p>
-          <p class="bd"><b>次級資料：</b>70% 藝術家擔憂、逾 80% 認為危及收入（NAVA，n=890+）；迪士尼／Getty 訴訟潮證明「未授權」是真實且巨大的爭議。</p>
-          <p class="bd"><b>一手驗證（規劃）：</b>訪談 15 位接案繪師＋5 個內容團隊；噗浪／X 繪師圈問卷 200 份；分析模型站上「繪師名」風格模型的搜尋與下載量——<u>盜版模型的流量，就是未被滿足的付費需求</u>。</p>
-          <p class="src">SRC ─ NAVA (2025) / Artists Rights Society (2024)</p>
-        </div>
+<!-- 6. 受眾痛點驗證 -->
+<section class="slide" data-title="受眾・痛點・驗證" data-section="清晰的問題陳述" data-note="數據與聲量＝真實需求">
+  <div class="sheet"><div class="wrap">
+    <p class="kicker">02 ─ A Clear Problem Statement</p>
+    <h2>受眾・痛點・驗證<span class="en">Who hurts, and how do we know</span></h2>
+    <div class="cols">
+      <div>
+        <div class="img-frame mvp-img"><img src="img/art2.jpg" alt="郭熙 早春圖"></div>
+        <p class="plate"><b>郭熙《早春圖》</b>・ 國立故宮博物院（公共版權）— 國寶很美，但年輕人不會主動點開。</p>
+      </div>
+      <div class="cards" style="grid-template-columns:1fr;margin-top:0">
+        <div class="card j"><span class="tag">WHO ─ 目標受眾</span><p class="q">全球年輕世代 × 文化／太空迷</p><p class="note">Persona：大學生小薇，覺得故宮「是校外教學去的」，但會為一個能 AR 分享、有故事的體驗買單。</p></div>
+        <div class="card"><span class="tag">PAIN ─ 痛點</span><p class="bd">① 國寶與年輕人「無感、有距離」② 數位典藏躺著沒人看 ③ 觀光客只買得到明信片磁鐵 ④ 太空酬載缺有意義、有話題的內容夥伴。</p></div>
+        <div class="card b"><span class="tag">PROOF ─ 驗證</span><p class="bd">次級資料：68% 偏好文化聯名、文創 1.13 兆。一手驗證：校園與故宮現場問卷 200 份、AR 原型小規模試用完成率與分享率。</p></div>
       </div>
     </div>
-  </div>
+  </div></div>
 </section>
 
-<!-- ════════ 7. 章節：產品介紹 ════════ -->
-<section class="slide divider" data-title="03 產品介紹" data-section="產品介紹" data-note="把「畫風」變成可收費的資產">
-  <div class="sheet">
-    <div class="bignum">03</div>
-    <div class="wrap">
-      <p class="secmark">SECTION 03 ─ C</p>
-      <h2>產品介紹</h2>
-      <p class="en2">Product Introduction</p>
-      <ul class="divlist">
-        <li>產品願景與核心亮點。</li>
-        <li><u>最小可行產品</u>（Minimum Viable Product, MVP）的介紹。</li>
-        <li>說明 MVP 的每一項功能如何對應並解決目標客群的<u>痛點</u>或<u>需求</u>。</li>
-        <li>說明這款產品如何與市場上既有的產品做出<u>差異化</u>。</li>
-        <li>如何測試市場對 MVP 的<u>反應</u>。</li>
-        <li>如何界定 MVP 是否<u>成功</u>。</li>
-      </ul>
-    </div>
-  </div>
+<!-- 7. 章節 03 -->
+<section class="slide divider" data-title="03 產品介紹" data-section="產品介紹" data-note="讓國寶離開地球">
+  <div class="sheet"><div class="bignum">03</div><div class="wrap">
+    <p class="secmark">SECTION 03 ─ C</p>
+    <h2>產品介紹</h2><p class="en2">Product Introduction</p>
+    <ul class="divlist">
+      <li>產品願景與核心亮點。</li>
+      <li><u>最小可行產品</u>（MVP）的介紹。</li>
+      <li>說明 MVP 的每一項功能如何對應並解決<u>痛點</u>或<u>需求</u>。</li>
+      <li>說明如何與既有產品做出<u>差異化</u>。</li>
+      <li>如何測試市場對 MVP 的<u>反應</u>、如何界定<u>成功</u>。</li>
+    </ul>
+  </div></div>
 </section>
 
-<!-- 8. 願景與亮點 -->
-<section class="slide" data-title="產品願景與核心亮點" data-section="產品介紹" data-note="存證 ・ 授權 ・ 雷達">
-  <div class="sheet">
-    <div class="wrap">
-      <p class="kicker">03 ─ Product Introduction</p>
-      <h2>產品願景與核心亮點<span class="en">Vision &amp; Highlights</span></h2>
-      <div class="vision">
-        「在 AI 時代，讓<span class="red">『畫風』</span>成為創作者可以註冊、授權、收費的資產。」
-        <small>AI 的速度 ─ 創作者的規則 / SPEED OF AI, RULES OF THE ARTIST</small>
-      </div>
-      <div class="cards">
-        <div class="card">
-          <span class="tag">01 ─ 風格存證</span>
-          <p class="bd">上傳作品集即建立<b>風格檔案＋內容憑證</b>（採 C2PA 標準），留下「這個風格屬於誰」的時間戳記證據鏈。</p>
-        </div>
-        <div class="card">
-          <span class="tag">02 ─ 授權生成</span>
-          <p class="bd">官方代訓<b>專屬風格模型</b>（權重不外流），粉絲付費生成、繪師分潤 <b class="st">70%</b>——睡覺也有版稅。</p>
-        </div>
-        <div class="card">
-          <span class="tag">03 ─ 盜用雷達</span>
-          <p class="bd">自動掃描公開模型站與社群，發現<b>疑似未授權的風格仿冒</b>即時警報＋一鍵申訴。</p>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- 8. 願景與亮點 + 百駿圖橫幅 -->
+<section class="slide" data-title="產品願景與核心亮點" data-section="產品介紹" data-note="發射 ・ 收藏 ・ 備份">
+  <div class="sheet"><div class="wrap">
+    <p class="kicker">03 ─ Product Introduction</p>
+    <h2>產品願景與核心亮點<span class="en">Vision &amp; Highlights</span></h2>
+    <div class="vision">「讓千年國寶，搭上人類前往星辰的火箭——把<span class="jade">文化</span>送出<span class="blue">地球</span>。」
+      <small>TREASURES BEYOND EARTH</small></div>
+    <div class="img-frame banner"><img src="img/art3.jpg" alt="郎世寧 百駿圖"></div>
+    <p class="plate"><b>郎世寧《百駿圖》</b>長卷 ・ 國立故宮博物院（公共版權）</p>
+  </div></div>
 </section>
 
-<!-- 9. MVP 介紹 -->
+<!-- 9. MVP -->
 <section class="slide" data-title="MVP 介紹" data-section="產品介紹" data-note="最小功能，驗證最大假設">
-  <div class="sheet">
-    <div class="wrap">
-      <p class="kicker">03 ─ Product Introduction</p>
-      <h2>最小可行產品<span class="en">Minimum Viable Product, MVP</span></h2>
-      <p class="lead">MVP 聚焦驗證最關鍵的一條假設：<u>繪師願意授權，粉絲願意付費</u>。其餘功能都先砍掉。</p>
-      <div class="cols">
-        <div class="shot">〔Demo 畫面：繪師主頁＋「以此風格生成」付費按鈕、<br>生成結果自動嵌入浮水印與內容憑證〕</div>
-        <ul class="list" style="margin-top:0">
-          <li><b>① 風格註冊：</b>繪師上傳 30–50 張作品，建立風格檔案與內容憑證，公開自訂授權條款（可商用／僅個人／不開放）。</li>
-          <li><b>② 授權生成市集：</b>平台代訓專屬模型，粉絲單張付費生成、繪師分潤 70%，產出自動嵌入浮水印＋憑證。</li>
-          <li><b>③ 盜用偵測警報：</b>監測公開模型站的疑似風格仿冒，通知繪師並附檢舉申訴模板。</li>
-        </ul>
+  <div class="sheet"><div class="wrap">
+    <p class="kicker">03 ─ Product Introduction</p>
+    <h2>最小可行產品<span class="en">Minimum Viable Product, MVP</span></h2>
+    <p class="lead">先驗證一條假設：<u>年輕人願意「發射國寶」並主動分享</u>。其餘先砍。</p>
+    <div class="cols">
+      <div>
+        <div class="img-frame mvp-img"><img src="img/art1.jpg" alt="范寬 谿山行旅圖"></div>
+        <p class="plate"><b>范寬《谿山行旅圖》</b>— 掃一下，這幅國寶會在 AR 中升空。</p>
       </div>
+      <ul class="list" style="margin-top:0">
+        <li><b>① AR 發射國寶：</b>手機選一件國寶，AR 看它裝上火箭升空、在軌道上展開，可錄影分享。</li>
+        <li><b>② 數位太空藏品：</b>每件對應一枚「太空國寶」數位收藏與任務徽章。</li>
+        <li><b>③ 真實酬載（象徵）：</b>與 SpaceX rideshare 合作，把故宮數位典藏蝕刻盤送上近地軌道，成為「人類文化備份」。</li>
+      </ul>
     </div>
-  </div>
+  </div></div>
 </section>
 
-<!-- 10. 功能 × 痛點對應 -->
+<!-- 10. 功能對應痛點 -->
 <section class="slide" data-title="功能 × 痛點對應" data-section="產品介紹" data-note="每個功能都對應一個痛點">
-  <div class="sheet">
-    <div class="wrap">
-      <p class="kicker">03 ─ Product Introduction</p>
-      <h2>功能 × 痛點對應<span class="en">Feature → Pain mapping</span></h2>
-      <p class="lead">MVP 的<u>每一項功能</u>，都對應第二章驗證過的痛點——對不上的功能一律先砍。</p>
-      <table>
-        <thead><tr><th>MVP 功能</th><th>對應的痛點／需求</th><th>如何解決・帶來什麼改變</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><b>風格註冊＋內容憑證</b></td>
-            <td>風格被仿冒卻「口說無憑」、維權無門（痛點①）</td>
-            <td>建立有時間戳記的風格證據鏈，從「我覺得他抄我」變成「有紀錄可查」。</td>
-          </tr>
-          <tr>
-            <td><b>授權生成市集（分潤 70%）</b></td>
-            <td>AI 壓縮委託收入（痛點②③）；粉絲想要卻買不起、等不了（痛點④）</td>
-            <td>繪師多一條被動版稅收入、用自己的規則擁抱 AI；粉絲用百元價格即時、合法取得。</td>
-          </tr>
-          <tr>
-            <td><b>盜用偵測警報</b></td>
-            <td>不知道自己被仿、發現了也不知如何處理（痛點①）</td>
-            <td>平台主動巡邏＋一鍵申訴，把維權成本從「請律師」降到「點一下通知」。</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <div class="sheet"><div class="wrap">
+    <p class="kicker">03 ─ Product Introduction</p>
+    <h2>功能 × 痛點對應<span class="en">Feature → Pain mapping</span></h2>
+    <p class="lead">MVP 的<u>每一項功能</u>都對應第二章的痛點——對不上的先砍。</p>
+    <table>
+      <thead><tr><th>MVP 功能</th><th>對應的痛點／需求</th><th>帶來什麼改變</th></tr></thead>
+      <tbody>
+        <tr><td><b>AR 發射國寶</b></td><td>國寶無感、典藏沒人看（痛點①②）</td><td>把「躺在展櫃」變成「在你手上升空、想分享」。</td></tr>
+        <tr><td><b>數位太空藏品</b></td><td>觀光客只買得到明信片磁鐵（痛點③）</td><td>人人帶得走、可收藏可炫耀的數位國寶。</td></tr>
+        <tr><td><b>真實太空酬載</b></td><td>太空酬載缺有意義的夥伴（痛點④）</td><td>給 SpaceX 一個全球都會報導的文化故事，故宮拿到世界級舞台。</td></tr>
+      </tbody>
+    </table>
+  </div></div>
 </section>
 
-<!-- 11. 市場差異化（感知圖） -->
-<section class="slide" data-title="市場差異化" data-section="產品介紹" data-note="右上象限，目前無人">
-  <div class="sheet">
-    <div class="wrap">
-      <p class="kicker">03 ─ Product Introduction</p>
-      <h2>市場差異化<span class="en">Perceptual Map / Comparison</span></h2>
-      <div class="cols">
-        <div class="mapbox">
-          <svg viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
-            <line x1="40" y1="180" x2="480" y2="180" stroke="#141414" stroke-width="1.5"/>
-            <line x1="260" y1="36" x2="260" y2="324" stroke="#141414" stroke-width="1.5"/>
-            <polygon points="480,180 470,175 470,185" fill="#141414"/>
-            <polygon points="260,36 255,46 265,46" fill="#141414"/>
-            <text x="260" y="22" fill="#6b685f" font-size="14" text-anchor="middle">AI 即時生成</text>
-            <text x="260" y="348" fill="#6b685f" font-size="14" text-anchor="middle">人工委託</text>
-            <text x="42" y="202" fill="#6b685f" font-size="14" text-anchor="start">創作者零掌控</text>
-            <text x="478" y="202" fill="#6b685f" font-size="14" text-anchor="end">創作者授權分潤</text>
-            <circle cx="135" cy="85" r="7" fill="#141414"/>
-            <text x="135" y="111" fill="#6b685f" font-size="13" text-anchor="middle">開源模型站</text>
-            <circle cx="305" cy="110" r="7" fill="#141414"/>
-            <text x="305" y="136" fill="#6b685f" font-size="13" text-anchor="middle">Adobe Firefly</text>
-            <circle cx="408" cy="268" r="7" fill="#141414"/>
-            <text x="398" y="294" fill="#6b685f" font-size="13" text-anchor="middle">傳統委託平台</text>
-            <circle cx="415" cy="80" r="10" fill="#D43A26"/>
-            <circle class="pulse-ring" cx="415" cy="80" r="16" fill="none" stroke="#D43A26" stroke-opacity=".45" stroke-width="2"/>
-            <text x="415" y="52" fill="#D43A26" font-size="14" font-weight="bold" text-anchor="middle">風格庫 StyleVault</text>
-          </svg>
-          <p class="caption">PERCEPTUAL MAP ─ 取得速度 × 創作者掌控：右上象限目前是空白帶</p>
-        </div>
-        <div>
-          <ul class="list" style="margin-top:0">
-            <li><b>我們站的位置：</b>唯一讓「個人繪師的風格」能被即時、合法、付費使用的市集。</li>
-            <li><b>模型站跟不進：</b>商業模式建立在未授權內容上，回頭做授權等於否定自己。</li>
-            <li><b>Firefly 做不到：</b>綁定自家圖庫，賣的是「素材風格」，不是「你喜歡的那位繪師」；貢獻者分紅極薄。</li>
-            <li><b>委託平台動不了：</b>導入 AI 生成會跟自家人工接案抽成互打。<br><span class="note">備案：功能比較表（中文繪師風格／授權分潤／盜用偵測／內容憑證 四欄）。</span></li>
-          </ul>
-        </div>
+<!-- 11. 差異化 -->
+<section class="slide" data-title="市場差異化" data-section="產品介紹" data-note="全球×數位太空，目前無人">
+  <div class="sheet"><div class="wrap">
+    <p class="kicker">03 ─ Product Introduction</p>
+    <h2>市場差異化<span class="en">Perceptual Map</span></h2>
+    <div class="cols">
+      <div class="mapbox">
+        <svg viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg" font-family="inherit">
+          <line x1="40" y1="180" x2="480" y2="180" stroke="#141414" stroke-width="1.5"/>
+          <line x1="260" y1="36" x2="260" y2="324" stroke="#141414" stroke-width="1.5"/>
+          <polygon points="480,180 470,175 470,185" fill="#141414"/><polygon points="260,36 255,46 265,46" fill="#141414"/>
+          <text x="260" y="22" fill="#6b685f" font-size="14" text-anchor="middle">數位 / AR 體驗</text>
+          <text x="260" y="348" fill="#6b685f" font-size="14" text-anchor="middle">實體展示</text>
+          <text x="42" y="202" fill="#6b685f" font-size="14" text-anchor="start">在地</text>
+          <text x="478" y="202" fill="#6b685f" font-size="14" text-anchor="end">全球話題</text>
+          <circle cx="150" cy="255" r="7" fill="#5a5a78"/><text x="150" y="281" fill="#6b685f" font-size="13" text-anchor="middle">故宮實體展</text>
+          <circle cx="135" cy="120" r="7" fill="#5a5a78"/><text x="135" y="146" fill="#6b685f" font-size="13" text-anchor="middle">博物館 App</text>
+          <circle cx="330" cy="255" r="7" fill="#5a5a78"/><text x="330" y="281" fill="#6b685f" font-size="13" text-anchor="middle">NFT 數位藏品</text>
+          <circle class="pulse-ring" cx="412" cy="92" r="14" fill="none" stroke="#2552bf" stroke-opacity=".45" stroke-width="2"/>
+          <circle cx="412" cy="92" r="10" fill="#2552bf"/>
+          <text x="412" y="64" fill="#2552bf" font-size="14" font-weight="bold" text-anchor="middle">故宮×SpaceX</text>
+        </svg>
+        <p class="caption">PERCEPTUAL MAP ─ 數位體驗 × 全球話題：右上象限目前無人</p>
       </div>
+      <div><ul class="list" style="margin-top:0">
+        <li><b>我們站的位置：</b>唯一把國寶變成「全球都在看的太空 AR 事件」。</li>
+        <li><b>實體展／App 做不到：</b>在地、被動，沒有全球話題引爆點。</li>
+        <li><b>純 NFT 做不到：</b>沒有真實太空酬載的故事與正當性。</li>
+        <li><b>護城河：</b>故宮獨家 IP × SpaceX 獨家舞台，難以被複製。</li>
+      </ul></div>
     </div>
-  </div>
+  </div></div>
 </section>
 
-<!-- 12. 測試市場反應 -->
-<section class="slide" data-title="如何測試市場反應" data-section="產品介紹" data-note="先寫下假設，再蒐集證據">
-  <div class="sheet">
-    <div class="wrap">
-      <p class="kicker">03 ─ Product Introduction</p>
-      <h2>如何測試市場對 MVP 的反應<span class="en">Market Testing</span></h2>
-      <p class="lead">每個實驗先寫下「要驗證的假設」，再蒐集證據——讓數字替我們做決定。</p>
-      <div class="cards">
-        <div class="card">
-          <span class="tag">T-01 ─ 繪師試點</span>
-          <p class="q">邀 3–5 位中型繪師（1–5 萬粉）首批上架</p>
-          <p class="bd">假設：受邀繪師中 <b class="st">≥ 6 成</b>願意嘗試授權（信任假設）。</p>
-        </div>
-        <div class="card">
-          <span class="tag">T-02 ─ 粉絲付費實驗</span>
-          <p class="q">試點繪師限時開賣「風格生成包」</p>
-          <p class="bd">假設：粉絲付費轉換率 <b class="st">≥ 3%</b>，單張定價 NT$99–299 可被接受。</p>
-        </div>
-        <div class="card">
-          <span class="tag">T-03 ─ 雙端著陸頁</span>
-          <p class="q">繪師端「保護＋變現」／粉絲端「合法用愛發電」</p>
-          <p class="bd">假設：繪師端訪客留下 Email 候補 <b class="st">≥ 10%</b>。</p>
-        </div>
-        <div class="card">
-          <span class="tag">T-04 ─ 定價 A/B</span>
-          <p class="q">單張計費 vs 月訂閱兩版並行</p>
-          <p class="bd">假設：訂閱制終身價值較高，但單張制首購轉換較好——用數據決定主力方案。</p>
-        </div>
-      </div>
+<!-- 12. 市場測試 -->
+<section class="slide" data-title="如何測試市場反應" data-section="產品介紹" data-note="先寫假設，再蒐證據">
+  <div class="sheet"><div class="wrap">
+    <p class="kicker">03 ─ Product Introduction</p>
+    <h2>如何測試市場對 MVP 的反應<span class="en">Market Testing</span></h2>
+    <p class="lead">每個實驗先寫下「要驗證的假設」，再蒐集證據。</p>
+    <div class="cards">
+      <div class="card"><span class="tag">T-01 ─ AR 試用</span><p class="q">先做 1 件國寶的 AR 發射原型</p><p class="bd">假設：試用者完成「發射」並看完 <b class="st">≥ 80%</b>。</p></div>
+      <div class="card"><span class="tag">T-02 ─ 分享率</span><p class="q">AR 結束鼓勵錄影分享</p><p class="bd">假設：分享率 <b class="st">≥ 15%</b>（社群擴散的關鍵）。</p></div>
+      <div class="card"><span class="tag">T-03 ─ 數位藏品</span><p class="q">小量開放認購</p><p class="bd">假設：看完 AR 者認購轉換 <b class="st">≥ 5%</b>。</p></div>
+      <div class="card"><span class="tag">T-04 ─ 媒體聲量</span><p class="q">用一則「國寶上太空」前導發布測風向</p><p class="bd">假設：兩週內取得 <b class="st">≥ 20</b> 家媒體報導。</p></div>
     </div>
-  </div>
+  </div></div>
 </section>
 
-<!-- 13. 如何界定成功 -->
+<!-- 13. 成功界定 -->
 <section class="slide" data-title="如何界定 MVP 成功" data-section="產品介紹" data-note="先訂門檻，也訂失敗條件">
-  <div class="sheet">
-    <div class="wrap">
-      <p class="kicker">03 ─ Product Introduction</p>
-      <h2>如何界定 MVP 是否成功<span class="en">Definition of Success</span></h2>
-      <p class="lead"><u>發布前</u>先訂好門檻，讓數字說話，不靠感覺投票。</p>
-      <div class="cards">
-        <div class="card"><span class="tag">M-01 ─ 供給</span><p class="q">繪師願意來、願意留</p><p class="bd">上線 3 個月簽下 <b class="st">30 位</b>繪師，月續留 <b class="st">≥ 80%</b>。</p></div>
-        <div class="card"><span class="tag">M-02 ─ 付費</span><p class="q">粉絲真的掏錢</p><p class="bd">粉絲端付費轉換 <b class="st">≥ 3%</b>、客單價 <b class="st">≥ NT$150</b>。</p></div>
-        <div class="card"><span class="tag">M-03 ─ 營收</span><p class="q">「風格版稅」模式成立</p><p class="bd">第 3 個月起單月分潤總額 <b class="st">≥ NT$10 萬</b>，且前 5 位繪師以外貢獻過半（不靠單一明星）。</p></div>
-        <div class="card"><span class="tag">M-04 ─ 信任</span><p class="q">繪師圈口碑站得住</p><p class="bd">繪師 NPS <b class="st">≥ 40</b>；盜用偵測誤報率 <b class="st">&lt; 10%</b>。</p></div>
-      </div>
-      <div class="warn"><b>同時訂出失敗條件：</b>若受邀繪師上架率 &lt; 2 成——「信任假設」不成立，先轉做「存證＋盜用偵測」的防護工具切入繪師圈，建立信任後再回頭開市集。快速失敗、便宜轉向，也是 MVP 的目的。</div>
+  <div class="sheet"><div class="wrap">
+    <p class="kicker">03 ─ Product Introduction</p>
+    <h2>如何界定 MVP 是否成功<span class="en">Definition of Success</span></h2>
+    <p class="lead"><u>發布前</u>先訂好門檻，讓數字說話。</p>
+    <div class="cards">
+      <div class="card b"><span class="tag">M-01 ─ 體驗</span><p class="q">AR 真的有人玩完</p><p class="bd">AR 完成率 <b class="st">≥ 80%</b>。</p></div>
+      <div class="card"><span class="tag">M-02 ─ 擴散</span><p class="q">會自己長出聲量</p><p class="bd">分享率 <b class="st">≥ 15%</b>、媒體 <b class="st">≥ 20</b> 則。</p></div>
+      <div class="card"><span class="tag">M-03 ─ 營收</span><p class="q">有人願意買單</p><p class="bd">數位藏品認購轉換 <b class="st">≥ 5%</b>。</p></div>
+      <div class="card j"><span class="tag">M-04 ─ 年輕化</span><p class="q">真的觸及新世代</p><p class="bd">使用者 <b class="st">18–34 歲占 ≥ 60%</b>。</p></div>
     </div>
-  </div>
+    <div class="warn"><b>同時訂出失敗條件：</b>若 AR 分享率 &lt; 5%——「會被瘋傳」的假設不成立，先回到「純數位藏品＋地面 AR 展」驗證內容吸引力，不依賴真實太空酬載這個昂貴變數。快速失敗、便宜轉向，也是 MVP 的目的。</div>
+  </div></div>
 </section>
 
 </div>
 
-<!-- 介面 -->
 <div class="ui">
-  <span id="counter">1 / 1</span>
-  <span id="secLabel"></span>
-  <span class="navs">
-    <button class="navbtn" id="prev" aria-label="上一頁">‹</button>
-    <button class="navbtn" id="next" aria-label="下一頁">›</button>
-  </span>
+  <span id="counter">1 / 1</span><span id="secLabel"></span>
+  <span class="navs"><button class="navbtn" id="prev" aria-label="上一頁">‹</button><button class="navbtn" id="next" aria-label="下一頁">›</button></span>
 </div>
-
-<!-- 目錄 -->
-<div id="toc">
-  <div id="tocInner">
-    <h3>Index ─ 目錄（O / Esc 關閉）</h3>
-    <nav id="tocList"></nav>
-  </div>
-</div>
+<div id="toc"><div id="tocInner"><h3>Index ─ 目錄（O / Esc 關閉）</h3><nav id="tocList"></nav></div></div>
 
 <script>
 (function(){
   var slides=[].slice.call(document.querySelectorAll('.slide'));
-  var counter=document.getElementById('counter');
-  var bar=document.getElementById('bar');
-  var secLabel=document.getElementById('secLabel');
-  var toc=document.getElementById('toc');
-  var tocList=document.getElementById('tocList');
-  var cur=0;
-
+  var counter=document.getElementById('counter'),bar=document.getElementById('bar'),secLabel=document.getElementById('secLabel');
+  var toc=document.getElementById('toc'),tocList=document.getElementById('tocList'),cur=0;
   function pad(n){return (n<10?'0':'')+n}
-
-  // 海報角落標註：左上＝章節、右上＝頁碼、左下＝本頁一句重點、右下＝座標裝飾
   var secNo={'業界的挑戰':'第一章','清晰的問題陳述':'第二章','產品介紹':'第三章'};
   slides.forEach(function(s,i){
-    var sec=s.dataset.section;
-    var m=document.createElement('div');
-    m.className='pmeta';
-    m.innerHTML='<span>'+(sec?secNo[sec]+' ─ '+sec:(s.dataset.chap||''))+'</span>'
-      +'<span>№ '+pad(i+1)+' / '+pad(slides.length)+'</span>'
-      +'<span>'+(s.dataset.note||'')+'</span>'
-      +'<span>25.0330°N 121.5654°E ─ TPE</span>';
+    var sec=s.dataset.section,m=document.createElement('div');m.className='pmeta';
+    m.innerHTML='<span class="tl">'+(sec?secNo[sec]+' ─ '+sec:(s.dataset.chap||''))+'</span>'
+      +'<span class="tr">№ '+pad(i+1)+' / '+pad(slides.length)+'</span>'
+      +'<span class="bl">'+(s.dataset.note||'')+'</span>'
+      +'<span class="br">故宮 ✕ SpaceX</span>';
     s.querySelector('.sheet').appendChild(m);
   });
-
-  // 建立目錄
   slides.forEach(function(s,i){
-    var a=document.createElement('a');
-    a.href='#'+(i+1);
+    var a=document.createElement('a');a.href='#'+(i+1);
     if(s.classList.contains('divider'))a.className='sec';
     a.innerHTML='<span class="n">'+pad(i+1)+'</span><span>'+(s.dataset.title||'')+'</span>';
-    a.addEventListener('click',function(){toc.classList.remove('open');});
-    tocList.appendChild(a);
+    a.addEventListener('click',function(){toc.classList.remove('open');});tocList.appendChild(a);
   });
   var tocLinks=[].slice.call(tocList.querySelectorAll('a'));
-
-  function enter(s){
-    s.classList.remove('is-entering','is-shown');
-    void s.offsetWidth;          /* 強制重排，讓動畫重新播放 */
-    s.classList.add('is-entering');
-    clearTimeout(s._showTimer);  /* 動畫播完後強制定版，確保內容一定會顯示 */
-    s._showTimer=setTimeout(function(){s.classList.add('is-shown');},1250);
-  }
-  function go(n){
-    n=Math.max(0,Math.min(slides.length-1,n));
-    slides[cur].classList.remove('active');
-    cur=n;
-    slides[cur].classList.add('active');
-    enter(slides[cur]);
-    update();
-  }
-  function update(){
-    counter.textContent=pad(cur+1)+' / '+pad(slides.length);
-    bar.style.width=((cur+1)/slides.length*100)+'%';
-    secLabel.textContent=slides[cur].dataset.section||'';
-    tocLinks.forEach(function(a,i){a.classList.toggle('cur',i===cur);});
-    if(location.hash!=='#'+(cur+1))history.replaceState(null,'','#'+(cur+1));
-  }
-  function next(){go(cur+1)}
-  function prev(){go(cur-1)}
-
-  document.getElementById('next').addEventListener('click',next);
-  document.getElementById('prev').addEventListener('click',prev);
-
+  function enter(s){s.classList.remove('is-entering','is-shown');void s.offsetWidth;s.classList.add('is-entering');clearTimeout(s._t);s._t=setTimeout(function(){s.classList.add('is-shown');},1250);}
+  function go(n){n=Math.max(0,Math.min(slides.length-1,n));slides[cur].classList.remove('active');cur=n;slides[cur].classList.add('active');enter(slides[cur]);update();}
+  function update(){counter.textContent=pad(cur+1)+' / '+pad(slides.length);bar.style.width=((cur+1)/slides.length*100)+'%';secLabel.textContent=slides[cur].dataset.section||'';tocLinks.forEach(function(a,i){a.classList.toggle('cur',i===cur);});if(location.hash!=='#'+(cur+1))history.replaceState(null,'','#'+(cur+1));}
+  function next(){go(cur+1)}function prev(){go(cur-1)}
+  document.getElementById('next').addEventListener('click',next);document.getElementById('prev').addEventListener('click',prev);
   document.addEventListener('keydown',function(e){
     if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='PageDown'||(e.key===' '&&!e.shiftKey)){e.preventDefault();next();}
     else if(e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='PageUp'||(e.key===' '&&e.shiftKey)){e.preventDefault();prev();}
-    else if(e.key==='Home'){e.preventDefault();go(0);}
-    else if(e.key==='End'){e.preventDefault();go(slides.length-1);}
-    else if(e.key==='f'||e.key==='F'){
-      if(document.fullscreenElement)document.exitFullscreen();
-      else document.documentElement.requestFullscreen();
-    }
-    else if(e.key==='o'||e.key==='O'||e.key==='Escape'){
-      if(e.key==='Escape'&&!toc.classList.contains('open'))return;
-      toc.classList.toggle('open');
-    }
+    else if(e.key==='Home'){e.preventDefault();go(0);}else if(e.key==='End'){e.preventDefault();go(slides.length-1);}
+    else if(e.key==='f'||e.key==='F'){if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen();}
+    else if(e.key==='o'||e.key==='O'||e.key==='Escape'){if(e.key==='Escape'&&!toc.classList.contains('open'))return;toc.classList.toggle('open');}
   });
-
-  // 手機滑動
   var tx=null;
   document.addEventListener('touchstart',function(e){tx=e.changedTouches[0].clientX;},{passive:true});
-  document.addEventListener('touchend',function(e){
-    if(tx===null)return;
-    var dx=e.changedTouches[0].clientX-tx;
-    if(Math.abs(dx)>50){dx<0?next():prev();}
-    tx=null;
-  },{passive:true});
-
-  // 內容超出海報時自動微縮（最小 0.78），再不行才顯示捲軸
+  document.addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50){dx<0?next():prev();}tx=null;},{passive:true});
   var wraps=[].slice.call(document.querySelectorAll('.wrap'));
-  function fit(){
-    wraps.forEach(function(w){
-      w.classList.remove('scroll');
-      w.style.zoom='';
-      var z=1;
-      while(w.scrollHeight>w.clientHeight+4&&z>0.78){
-        z-=0.03;
-        w.style.zoom=z;
-      }
-      if(w.scrollHeight>w.clientHeight+4)w.classList.add('scroll');
-    });
-  }
+  function fit(){wraps.forEach(function(w){w.classList.remove('scroll');w.style.zoom='';var z=1;while(w.scrollHeight>w.clientHeight+4&&z>0.78){z-=0.03;w.style.zoom=z;}if(w.scrollHeight>w.clientHeight+4)w.classList.add('scroll');});}
   window.addEventListener('resize',function(){fit()});
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+  window.addEventListener('load',fit);
   fit();
-
-  // 網址 #頁碼 同步（支援上一頁／重新整理）
-  function fromHash(){
-    var n=parseInt(location.hash.slice(1),10);
-    go(isNaN(n)?0:n-1);
-  }
-  window.addEventListener('hashchange',fromHash);
-  fromHash();
+  function fromHash(){var n=parseInt(location.hash.slice(1),10);go(isNaN(n)?0:n-1);}
+  window.addEventListener('hashchange',fromHash);fromHash();
 })();
 </script>
 </body>
