@@ -49,3 +49,21 @@ jobs:
             git commit -m "Add FOMC statement report"
             git push
           fi
+
+      # Emails the report to the user. Only runs if the Gmail app-password
+      # secrets are configured; otherwise it is skipped (the report is still
+      # committed to the repo above). To enable: add repo secrets MAIL_USERNAME
+      # (your Gmail address) and MAIL_PASSWORD (a Gmail App Password).
+      - name: Email the report
+        if: ${{ secrets.MAIL_PASSWORD != '' }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "FOMC 聲明速報已產生"
+          to: mars.kk9330@gmail.com
+          from: FOMC Watch
+          body: file://reports/latest.md

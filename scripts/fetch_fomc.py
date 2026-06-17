@@ -169,8 +169,12 @@ def main() -> int:
 
     os.makedirs("reports", exist_ok=True)
     path = os.path.join("reports", f"fomc-{d.isoformat()}.md")
+    content = "\n".join(out) + "\n"
     with open(path, "w", encoding="utf-8") as f:
-        f.write("\n".join(out) + "\n")
+        f.write(content)
+    # Stable filename for the email step / quick access to the newest report.
+    with open(os.path.join("reports", "latest.md"), "w", encoding="utf-8") as f:
+        f.write(content)
     print(f"Wrote {path} (rate: {rate})")
     return 0
 
