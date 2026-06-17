@@ -1,0 +1,69 @@
+name: FOMC Watch
+
+# Pulls the FOMC statement after the 6/17/2026 2:00 PM ET (18:00 UTC) release,
+# diffs it against the previous statement, and commits a Markdown report so it
+# is waiting in the repo before 9 AM Taiwan time (UTC+8) the next morning.
+#
+# NOTE: GitHub only runs `schedule:` triggers from the DEFAULT branch. For the
+# cron below to fire automatically, this file must be on the default branch
+# (e.g. merged into main) before 18:00 UTC on 6/17. From any other branch you
+# can still trigger it manually via "Run workflow" (workflow_dispatch).
+
+on:
+  schedule:
+    - cron: "20 18 17 6 *"   # 18:20 UTC = 02:20 Taipei, ~20 min after the statement
+    - cron: "0 20 17 6 *"    # 20:00 UTC = 04:00 Taipei, safety re-run
+    - cron: "0 23 17 6 *"    # 23:00 UTC = 07:00 Taipei, final safety re-run
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fomc-watch
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch FOMC statement and build report
+        env:
+          # Optional: set this repo secret to also get a Traditional Chinese
+          # summary. Without it, the report still contains the full statement
+          # and the redline diff.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/fetch_fomc.py
+      - name: Commit report if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/
+          if git diff --cached --quiet; then
+            echo "No new report to commit."
+          else
+            git commit -m "Add FOMC statement report"
+            git push
+          fi
+
+      # Emails the report to the user. Only runs if the Gmail app-password
+      # secrets are configured; otherwise it is skipped (the report is still
+      # committed to the repo above). To enable: add repo secrets MAIL_USERNAME
+      # (your Gmail address) and MAIL_PASSWORD (a Gmail App Password).
+      - name: Email the report
+        if: ${{ secrets.MAIL_PASSWORD != '' }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "FOMC 聲明速報已產生"
+          to: mars.kk9330@gmail.com
+          from: FOMC Watch
+          body: file://reports/latest.md
